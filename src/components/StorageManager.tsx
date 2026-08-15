@@ -10,6 +10,7 @@ import {
   estimateStorageCost,
   encryptData,
   getShelbyHotUrl,
+  getCanonicalShelbyUri,
 } from '@/lib/shelby';
 import { getStoredBlobs, saveBlob, deleteStoredBlob } from '@/lib/storage';
 import {
@@ -980,23 +981,23 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
                   <span className="badge badge-green" style={{ fontSize: '9px', padding: '1px 6px' }}>Publicly Accessible</span>
                 </div>
                 <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-green)', wordBreak: 'break-all', marginTop: '2px' }}>
-                  {typeof window !== 'undefined' ? `${window.location.origin}/api/stream/${previewBlob.id}` : `/api/stream/${previewBlob.id}`}
+                  {getShelbyHotUrl(previewBlob.accountAddress, previewBlob.blobName)}
                 </div>
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                  ⚡ Sub-second global stream delivered via Shelby Cortex Hot Gateway
+                  ⚡ Direct sub-second hot stream delivered via Shelby Cortex Hot Gateway
                 </div>
               </div>
 
               <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>APTOS MOVE ON-CHAIN PROTOCOL KEY</div>
-                  <span className="badge badge-purple" style={{ fontSize: '9px', padding: '1px 6px' }}>Smart Contract Resource</span>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>OFFICIAL TESTNET MOVE RPC URI</div>
+                  <span className="badge badge-purple" style={{ fontSize: '9px', padding: '1px 6px' }}>Protocol Subnet</span>
                 </div>
                 <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: '#4facfe', wordBreak: 'break-all', marginTop: '2px' }}>
-                  {`shelby::blob_vault::${previewBlob.accountAddress}::${previewBlob.blobName}`}
+                  {getCanonicalShelbyUri(previewBlob.accountAddress, previewBlob.blobName)}
                 </div>
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                  🔒 Used by Move Smart Contracts & @shelby-protocol/sdk to fetch shards across Doublezero fiber nodes
+                  🔒 Gated Early Access: Used by Move smart contracts & @shelby-protocol/sdk across Doublezero fiber nodes
                 </div>
               </div>
             </div>
@@ -1008,8 +1009,7 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
                   if (previewBlob.dataUrl) {
                     window.open(previewBlob.dataUrl, '_blank');
                   } else {
-                    const proxyUrl = typeof window !== 'undefined' ? `${window.location.origin}/api/stream/${previewBlob.id}` : `/api/stream/${previewBlob.id}`;
-                    window.open(proxyUrl, '_blank');
+                    window.open(getShelbyHotUrl(previewBlob.accountAddress, previewBlob.blobName), '_blank');
                   }
                 }}
                 className="btn-primary"
@@ -1020,21 +1020,20 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
 
               <button
                 onClick={() => {
-                  const proxyUrl = typeof window !== 'undefined' ? `${window.location.origin}/api/stream/${previewBlob.id}` : `/api/stream/${previewBlob.id}`;
-                  handleCopyText(proxyUrl, 'proxy_link');
+                  handleCopyText(getShelbyHotUrl(previewBlob.accountAddress, previewBlob.blobName), 'proxy_link');
                 }}
                 className="btn-secondary"
                 style={{ flex: 1, minWidth: '160px' }}
               >
-                {copiedId === 'proxy_link' ? <Check size={16} /> : <Copy size={16} />} Copy Proxy Stream
+                {copiedId === 'proxy_link' ? <Check size={16} /> : <Copy size={16} />} Copy Web Stream Link
               </button>
 
               <button
-                onClick={() => handleCopyText(previewBlob.hotUrl, 'modal_link')}
+                onClick={() => handleCopyText(getCanonicalShelbyUri(previewBlob.accountAddress, previewBlob.blobName), 'modal_link')}
                 className="btn-secondary"
                 style={{ flex: 1, minWidth: '160px' }}
               >
-                {copiedId === 'modal_link' ? <Check size={16} /> : <Copy size={16} />} Copy Canonical URI
+                {copiedId === 'modal_link' ? <Check size={16} /> : <Copy size={16} />} Copy Move URI
               </button>
             </div>
           </div>

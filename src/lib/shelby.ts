@@ -212,10 +212,22 @@ export async function decryptData(
 }
 
 /**
- * Get direct Shelby hot storage gateway URL
+ * Get direct Shelby hot storage gateway streaming URL
  */
 export function getShelbyHotUrl(accountAddress: string, blobName: string): string {
   const cleanAddr = accountAddress.startsWith('0x') ? accountAddress : `0x${accountAddress}`;
   const cleanName = encodeURIComponent(blobName.replace(/^\/+/, ''));
-  return `${SHELBY_TESTNET_BASE_URL}/blobs/${cleanAddr}/${cleanName}`;
+  if (typeof window !== 'undefined') {
+    return `${window.location.origin}/api/blobs/${cleanAddr}/${cleanName}`;
+  }
+  return `https://shelby-cortex.vercel.app/api/blobs/${cleanAddr}/${cleanName}`;
+}
+
+/**
+ * Get on-chain Move testnet canonical resource URI
+ */
+export function getCanonicalShelbyUri(accountAddress: string, blobName: string): string {
+  const cleanAddr = accountAddress.startsWith('0x') ? accountAddress : `0x${accountAddress}`;
+  const cleanName = encodeURIComponent(blobName.replace(/^\/+/, ''));
+  return `https://api.testnet.shelby.xyz/shelby/v1/blobs/${cleanAddr}/${cleanName}`;
 }
