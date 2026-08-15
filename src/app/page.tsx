@@ -157,7 +157,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', fontSize: '12px', color: 'var(--text-secondary)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '12px', color: 'var(--text-secondary)', flexWrap: 'wrap' }}>
             <button
               onClick={() => setActiveTab('docs')}
               style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: '12px' }}
@@ -171,28 +171,44 @@ export default function Home() {
               About
             </button>
             <a
+              href="https://explorer.shelby.xyz/shelbynet"
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: 'var(--shelby-cyan)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}
+            >
+              Shelbynet Explorer <ExternalLink size={12} />
+            </a>
+            <a
               href="https://docs.shelby.xyz/"
               target="_blank"
               rel="noreferrer"
               style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
             >
-              Official Docs <ExternalLink size={12} />
+              Docs <ExternalLink size={12} />
             </a>
             <a
-              href="https://github.com/shelby/examples"
+              href="https://github.com/shelby/shelby-quickstart"
               target="_blank"
               rel="noreferrer"
               style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
             >
-              GitHub <ExternalLink size={12} />
+              Quickstart <ExternalLink size={12} />
             </a>
             <a
-              href="https://developers.shelby.xyz/apply"
+              href="https://x.com/shelbyserves"
               target="_blank"
               rel="noreferrer"
-              style={{ color: 'var(--shelby-cyan)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}
+              style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
             >
-              Early Access <Zap size={12} />
+              @shelbyserves <ExternalLink size={12} />
+            </a>
+            <a
+              href="https://developers.shelby.xyz/"
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: 'var(--shelby-green)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}
+            >
+              Apply for Production <ExternalLink size={12} />
             </a>
           </div>
         </div>
