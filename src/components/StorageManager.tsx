@@ -269,12 +269,14 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
     }
   };
 
-  const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to remove this blob from the local registry?')) {
-      deleteStoredBlob(id);
-      setBlobs(prev => prev.filter(b => b.id !== id));
-      if (previewBlob?.id === id) setPreviewBlob(null);
+  const handleDelete = (id: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
+    deleteStoredBlob(id);
+    setBlobs(prev => prev.filter(b => b.id !== id));
+    if (previewBlob?.id === id) setPreviewBlob(null);
   };
 
   const handleCopyText = (text: string, id: string) => {
@@ -866,7 +868,7 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
                     </button>
 
                     <button
-                      onClick={() => handleDelete(blob.id)}
+                      onClick={(e) => handleDelete(blob.id, e)}
                       className="btn-ghost"
                       style={{ padding: '6px 8px', color: '#ff6b6b' }}
                       title="Delete Blob"
