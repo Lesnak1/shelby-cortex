@@ -924,7 +924,8 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
             {/* Media/Text Viewer */}
             <div
               style={{
-                backgroundColor: 'var(--code-bg)',
+                backgroundColor: 'var(--input-bg)',
+                border: '1px solid var(--card-border)',
                 borderRadius: '12px',
                 padding: '16px',
                 marginBottom: '20px',
@@ -974,12 +975,12 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
               </div>
 
               <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>CANONICAL SHELBY TESTNET HOT GATEWAY URI</div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>CANONICAL MOVE ON-CHAIN RESOURCE IDENTIFIER</div>
                 <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-blue)', wordBreak: 'break-all', marginTop: '2px' }}>
                   {previewBlob.hotUrl}
                 </div>
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                  🔒 Official Shelby Testnet Gateway (Requires Early Access RPC Whitelist / Bearer Token)
+                  🔒 Gated Early Access Subnet: Raw public browser requests to api.testnet.shelby.xyz are restricted until mainnet. Use Shelby SDK or the Cortex Hot Stream below.
                 </div>
               </div>
 
