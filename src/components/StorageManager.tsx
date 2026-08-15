@@ -1066,14 +1066,14 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
 
               <div style={{ background: 'var(--input-bg)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>ON-CHAIN MOVE RESOURCE IDENTIFIER</div>
-                  <span className="badge badge-purple" style={{ fontSize: '8px', padding: '1px 5px' }}>Move Protocol</span>
+                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>OFFICIAL SHELBYNET TESTNET RPC URI</div>
+                  <span className="badge badge-purple" style={{ fontSize: '8px', padding: '1px 5px' }}>Official Protocol RPC</span>
                 </div>
                 <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: '#4facfe', wordBreak: 'break-all', marginTop: '2px' }}>
-                  {`shelby::blob_vault::${previewBlob.accountAddress}::${previewBlob.blobName}`}
+                  {`https://api.testnet.shelby.xyz/shelby/v1/blobs/${previewBlob.accountAddress}/${encodeURIComponent(previewBlob.blobName)}`}
                 </div>
                 <div style={{ fontSize: '9px', color: 'var(--text-muted)', marginTop: '2px' }}>
-                  🔒 Target for smart contracts & SDK. (Raw testnet RPC IPs use private testnet CA and cannot be opened directly in Chrome).
+                  🔒 Official Shelby gRPC/REST RPC endpoint for @shelby-protocol/sdk, cURL, and Move contracts.
                 </div>
               </div>
             </div>
@@ -1105,11 +1105,11 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
               </button>
 
               <button
-                onClick={() => handleCopyText(`shelby::blob_vault::${previewBlob.accountAddress}::${previewBlob.blobName}`, 'modal_link')}
+                onClick={() => handleCopyText(`https://api.testnet.shelby.xyz/shelby/v1/blobs/${previewBlob.accountAddress}/${encodeURIComponent(previewBlob.blobName)}`, 'modal_link')}
                 className="btn-secondary"
                 style={{ flex: 1, minWidth: '120px', fontSize: '12px', padding: '8px 12px' }}
               >
-                {copiedId === 'modal_link' ? <Check size={14} /> : <Copy size={14} />} Copy Move Key
+                {copiedId === 'modal_link' ? <Check size={14} /> : <Copy size={14} />} Copy RPC URI
               </button>
             </div>
           </div>
