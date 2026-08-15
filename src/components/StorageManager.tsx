@@ -967,30 +967,36 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
 
             {/* Cryptographic & Network Details */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px' }}>
+              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
                 <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SHA-256 INTEGRITY CHECKSUM</div>
                 <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-cyan)', wordBreak: 'break-all', marginTop: '2px' }}>
                   {previewBlob.sha256Hash}
                 </div>
               </div>
 
-              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>CANONICAL MOVE ON-CHAIN RESOURCE IDENTIFIER</div>
-                <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-blue)', wordBreak: 'break-all', marginTop: '2px' }}>
-                  {previewBlob.hotUrl}
+              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>LIVE WEB STREAM GATEWAY URL</div>
+                  <span className="badge badge-green" style={{ fontSize: '9px', padding: '1px 6px' }}>Publicly Accessible</span>
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                  🔒 Gated Early Access Subnet: Raw public browser requests to api.testnet.shelby.xyz are restricted until mainnet. Use Shelby SDK or the Cortex Hot Stream below.
-                </div>
-              </div>
-
-              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SHELBY CORTEX PROXY STREAM URL</div>
                 <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-green)', wordBreak: 'break-all', marginTop: '2px' }}>
                   {typeof window !== 'undefined' ? `${window.location.origin}/api/stream/${previewBlob.id}` : `/api/stream/${previewBlob.id}`}
                 </div>
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                  ⚡ Publicly accessible sub-second hot stream proxy
+                  ⚡ Sub-second global stream delivered via Shelby Cortex Hot Gateway
+                </div>
+              </div>
+
+              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>APTOS MOVE ON-CHAIN PROTOCOL KEY</div>
+                  <span className="badge badge-purple" style={{ fontSize: '9px', padding: '1px 6px' }}>Smart Contract Resource</span>
+                </div>
+                <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: '#4facfe', wordBreak: 'break-all', marginTop: '2px' }}>
+                  {`shelby::blob_vault::${previewBlob.accountAddress}::${previewBlob.blobName}`}
+                </div>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  🔒 Used by Move Smart Contracts & @shelby-protocol/sdk to fetch shards across Doublezero fiber nodes
                 </div>
               </div>
             </div>
