@@ -123,7 +123,7 @@ export default function DocsView() {
               <span className="badge badge-cyan" style={{ marginBottom: '8px' }}>Core Engineering</span>
               <h1 style={{ fontSize: '26px', fontWeight: 800 }}>Shelby Protocol Architecture</h1>
               <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginTop: '6px', lineHeight: '1.6' }}>
-                Shelby is a next-generation decentralized <strong>Hot Storage Protocol</strong> engineered by <strong>Aptos Labs</strong> and <strong>Jump Crypto</strong> to support read-heavy, latency-critical workloads such as AI model training/inference, video streaming, and decentralized applications.
+                Shelby is the first verifiable global object storage built for AI. Engineered with <strong>Jump&apos;s HPC-grade storage stack</strong>, <strong>Aptos L1</strong> for on-chain coordination and cryptographic verifiability, and <strong>Doublezero&apos;s dedicated global fiber network</strong> (30+ cities across 5 continents) ensuring sub-second delivery as a guarantee.
               </p>
             </div>
 
@@ -137,22 +137,22 @@ export default function DocsView() {
                     1. Control Plane (Aptos L1)
                   </div>
                   <ul style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.6', paddingLeft: '18px' }}>
-                    <li>Smart contract metadata registry</li>
+                    <li>Smart contract metadata registry & access control</li>
                     <li>Payment settlement in <code>shelbyUSD</code></li>
-                    <li>Cryptographic Proof of Retrievability</li>
-                    <li>Access control and expiration enforcement</li>
+                    <li>Cryptographic Proof of Retrievability on every read</li>
+                    <li>High-throughput parallel execution via Block-STM</li>
                   </ul>
                 </div>
 
                 <div style={{ background: 'var(--bg-secondary)', padding: '16px', borderRadius: '10px', border: '1px solid var(--card-border)' }}>
                   <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--shelby-green)', marginBottom: '6px' }}>
-                    2. Data Plane (Fiber Backbone)
+                    2. Data Plane (Doublezero Fiber Network)
                   </div>
                   <ul style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.6', paddingLeft: '18px' }}>
-                    <li>Sub-second global object retrieval (&lt;100ms)</li>
-                    <li>Dedicated high-speed fiber node mesh</li>
-                    <li>Read-based provider incentive rewards</li>
-                    <li>Reed-Solomon erasure shard distribution</li>
+                    <li>Guaranteed sub-second global retrieval (&lt;100ms)</li>
+                    <li>Dedicated fiber routing across 30+ cities & 5 continents</li>
+                    <li>70%+ lower egress costs vs. centralized AWS S3</li>
+                    <li>Reed-Solomon erasure sharding (zero multi-region replication overhead)</li>
                   </ul>
                 </div>
               </div>

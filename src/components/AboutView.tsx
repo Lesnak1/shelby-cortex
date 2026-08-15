@@ -29,13 +29,13 @@ export default function AboutView() {
         <div style={{ maxWidth: '820px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
             <span className="badge badge-cyan">Ecosystem Innovation</span>
-            <span className="badge badge-purple">Aptos Labs & Jump Crypto</span>
+            <span className="badge badge-purple">Aptos Labs • Jump Crypto • Doublezero Fiber</span>
           </div>
           <h1 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '12px', lineHeight: '1.2' }}>
-            Pioneering Decentralized <span className="gradient-text-cyan">Hot Storage</span> for the Autonomous AI Era
+            Verifiable Global <span className="gradient-text-cyan">Hot Object Storage</span> for the Autonomous AI Era
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '15px', lineHeight: '1.7' }}>
-            <strong>Shelby Cortex</strong> is an expert-tier application built for the Shelby Protocol ecosystem on the Aptos L1 blockchain. It bridges decentralized high-throughput object storage with autonomous AI agents, multi-language developer tooling, and real-time cryptographic verification.
+            <strong>Shelby Cortex</strong> is an expert-tier application built for the Shelby Protocol ecosystem. Powered by <strong>Jump&apos;s HPC-grade storage stack</strong>, <strong>Aptos L1</strong> on-chain coordination, and <strong>Doublezero&apos;s dedicated global fiber backbone</strong> (30+ cities across 5 continents), it delivers guaranteed sub-second reads with 70%+ lower egress costs for AI agents and high-throughput dApps.
           </p>
         </div>
       </div>
