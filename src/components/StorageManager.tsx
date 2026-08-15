@@ -60,7 +60,7 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
   const [encryptionPassphrase, setEncryptionPassphrase] = useState('');
   const [retentionDays, setRetentionDays] = useState(30);
   const [targetLocation, setTargetLocation] = useState<'auto' | 'us-east' | 'eu-central' | 'ap-south'>('auto');
-  const [uploadTags, setUploadTags] = useState('shelbynet, hot-tier, aptos');
+  const [uploadTags, setUploadTags] = useState('');
   
   // Real Processing state
   const [isHashing, setIsHashing] = useState(false);
@@ -130,6 +130,12 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
     setSelectedFile(file);
     setBlobName(file.name);
     setIsHashing(true);
+
+    // Dynamically generate context-aware tags from file attributes
+    const ext = file.name.split('.').pop()?.toLowerCase() || 'bin';
+    const cat = categorizeMime(file.type, file.name);
+    const dynamicTags = [cat, ext, targetLocation !== 'auto' ? targetLocation : 'global-mesh', 'shelbynet'].filter(Boolean);
+    setUploadTags(dynamicTags.join(', '));
 
     try {
       const buffer = await file.arrayBuffer();
@@ -635,16 +641,19 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
               )}
             </div>
 
-            {/* Tags Input */}
+            {/* Tags Input with Dynamic Context */}
             <div>
-              <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: '6px' }}>
-                Classification Tags (Comma separated)
-              </label>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Blob Classification & Metadata Tags
+                </label>
+                <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Auto-inscribed to Move</span>
+              </div>
               <input
                 type="text"
                 value={uploadTags}
                 onChange={e => setUploadTags(e.target.value)}
-                placeholder="ai-weights, dataset, production"
+                placeholder="e.g. image, training-data, ai-weights, hot-tier..."
                 style={{
                   width: '100%',
                   padding: '8px 12px',
@@ -656,6 +665,28 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
                   outline: 'none',
                 }}
               />
+              {/* Quick Tag Pills */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '6px' }}>
+                {['+ ai-agent', '+ lora-adapter', '+ vector-matrix', '+ hpc-cache', '+ dataset'].map(pill => {
+                  const rawPill = pill.replace('+ ', '');
+                  return (
+                    <button
+                      key={pill}
+                      type="button"
+                      onClick={() => {
+                        const current = uploadTags.split(',').map(t => t.trim()).filter(Boolean);
+                        if (!current.includes(rawPill)) {
+                          setUploadTags([...current, rawPill].join(', '));
+                        }
+                      }}
+                      className="btn-ghost"
+                      style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--card-border)' }}
+                    >
+                      {pill}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Upload Button */}
