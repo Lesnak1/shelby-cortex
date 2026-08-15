@@ -998,19 +998,34 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
               <button
                 onClick={() => {
+                  if (previewBlob.dataUrl) {
+                    window.open(previewBlob.dataUrl, '_blank');
+                  } else {
+                    const proxyUrl = typeof window !== 'undefined' ? `${window.location.origin}/api/stream/${previewBlob.id}` : `/api/stream/${previewBlob.id}`;
+                    window.open(proxyUrl, '_blank');
+                  }
+                }}
+                className="btn-primary"
+                style={{ flex: 1, minWidth: '170px' }}
+              >
+                <ExternalLink size={16} /> Open in New Tab
+              </button>
+
+              <button
+                onClick={() => {
                   const proxyUrl = typeof window !== 'undefined' ? `${window.location.origin}/api/stream/${previewBlob.id}` : `/api/stream/${previewBlob.id}`;
                   handleCopyText(proxyUrl, 'proxy_link');
                 }}
-                className="btn-primary"
-                style={{ flex: 1, minWidth: '180px' }}
+                className="btn-secondary"
+                style={{ flex: 1, minWidth: '160px' }}
               >
-                {copiedId === 'proxy_link' ? <Check size={16} /> : <Copy size={16} />} Copy Hot Stream Proxy
+                {copiedId === 'proxy_link' ? <Check size={16} /> : <Copy size={16} />} Copy Proxy Stream
               </button>
 
               <button
                 onClick={() => handleCopyText(previewBlob.hotUrl, 'modal_link')}
                 className="btn-secondary"
-                style={{ flex: 1, minWidth: '180px' }}
+                style={{ flex: 1, minWidth: '160px' }}
               >
                 {copiedId === 'modal_link' ? <Check size={16} /> : <Copy size={16} />} Copy Canonical URI
               </button>
