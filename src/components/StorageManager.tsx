@@ -59,7 +59,8 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
   const [isEncrypted, setIsEncrypted] = useState(false);
   const [encryptionPassphrase, setEncryptionPassphrase] = useState('');
   const [retentionDays, setRetentionDays] = useState(30);
-  const [uploadTags, setUploadTags] = useState('hot-tier, decentralized, aptos');
+  const [targetLocation, setTargetLocation] = useState<'auto' | 'us-east' | 'eu-central' | 'ap-south'>('auto');
+  const [uploadTags, setUploadTags] = useState('shelbynet, hot-tier, aptos');
   
   // Real Processing state
   const [isHashing, setIsHashing] = useState(false);
@@ -546,6 +547,44 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
                     }}
                   >
                     {days === 365 ? '1 Year' : `${days} Days`}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Named Location Shard Targeting (New Shelby Feature) */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Named Storage Location (Target / Hint)
+                </label>
+                <span className="badge badge-purple" style={{ fontSize: '9px', padding: '1px 6px' }}>
+                  Shelbynet v2
+                </span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
+                {[
+                  { id: 'auto', label: 'Auto Mesh' },
+                  { id: 'us-east', label: 'US-East' },
+                  { id: 'eu-central', label: 'EU-Central' },
+                  { id: 'ap-south', label: 'AP-South' },
+                ].map(loc => (
+                  <button
+                    key={loc.id}
+                    type="button"
+                    onClick={() => setTargetLocation(loc.id as any)}
+                    style={{
+                      padding: '6px',
+                      borderRadius: '6px',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      border: targetLocation === loc.id ? '1px solid var(--shelby-purple)' : '1px solid var(--card-border)',
+                      backgroundColor: targetLocation === loc.id ? 'rgba(157, 78, 221, 0.15)' : 'var(--input-bg)',
+                      color: targetLocation === loc.id ? '#c77dff' : 'var(--text-secondary)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {loc.label}
                   </button>
                 ))}
               </div>

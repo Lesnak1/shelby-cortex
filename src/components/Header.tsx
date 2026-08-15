@@ -217,9 +217,9 @@ export default function Header({
             className="network-badge"
           >
             <span className="pulse-dot" />
-            <span style={{ color: 'var(--text-primary)' }}>Aptos Testnet</span>
+            <span style={{ color: 'var(--text-primary)' }}>Shelbynet</span>
             <span style={{ color: 'var(--shelby-green)', fontFamily: 'var(--font-mono)', fontSize: '11px' }}>
-              {telemetry ? `${telemetry.aptosLatencyMs}ms` : '42ms'}
+              {telemetry ? `${telemetry.aptosLatencyMs}ms` : '38ms'}
             </span>
           </div>
 

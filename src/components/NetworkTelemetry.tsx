@@ -94,12 +94,13 @@ export default function NetworkTelemetry({
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
             <span className="badge badge-green">
-              <span className="pulse-dot" /> Live Network Connectivity
+              <span className="pulse-dot" /> Shelbynet Live Environment
             </span>
-            <span className="badge badge-cyan">Aptos L1 + Shelby Hot Gateway</span>
+            <span className="badge badge-cyan">Consolidated Epoch Settlement Path</span>
+            <span className="badge badge-purple">Doublezero Fiber Mesh</span>
           </div>
           <h1 style={{ fontSize: '24px', fontWeight: 800 }}>
-            Network Telemetry & <span className="gradient-text-cyan">Fiber Node Health</span>
+            Shelbynet Telemetry & <span className="gradient-text-cyan">Node Lifecycle Health</span>
           </h1>
         </div>
 
