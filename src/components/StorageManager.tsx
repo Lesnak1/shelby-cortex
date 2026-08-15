@@ -928,13 +928,13 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(3, 5, 10, 0.88)',
-            backdropFilter: 'blur(14px)',
+            backgroundColor: 'var(--modal-overlay)',
+            backdropFilter: 'blur(10px)',
             zIndex: 1000,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '16px',
+            padding: '12px',
           }}
           onClick={() => setPreviewBlob(null)}
         >
@@ -942,36 +942,36 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
             className="glass-panel"
             style={{
               width: '100%',
-              maxWidth: '680px',
-              maxHeight: '90vh',
+              maxWidth: '520px',
+              maxHeight: '86vh',
               overflowY: 'auto',
-              padding: '28px',
+              padding: '18px 20px',
               border: '1px solid var(--card-border-hover)',
+              borderRadius: '16px',
             }}
             onClick={e => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {getCategoryIcon(previewBlob.category)}
                 <div>
-                  <h3 style={{ fontSize: '18px', fontWeight: 700 }}>{previewBlob.blobName}</h3>
-                  <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{previewBlob.sizeFormatted} • {previewBlob.mimeType}</p>
+                  <h3 style={{ fontSize: '15px', fontWeight: 700 }}>{previewBlob.blobName}</h3>
+                  <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{previewBlob.sizeFormatted} • {previewBlob.mimeType}</p>
                 </div>
               </div>
-              <button onClick={() => setPreviewBlob(null)} className="btn-ghost" style={{ padding: '6px' }}>
-                <X size={20} />
+              <button onClick={() => setPreviewBlob(null)} className="btn-ghost" style={{ padding: '4px' }}>
+                <X size={18} />
               </button>
             </div>
 
             {/* Media/Text Viewer */}
             <div
               style={{
-                backgroundColor: 'var(--input-bg)',
-                border: '1px solid var(--card-border)',
-                borderRadius: '12px',
-                padding: '16px',
-                marginBottom: '20px',
-                maxHeight: '400px',
+                backgroundColor: 'transparent',
+                borderRadius: '10px',
+                padding: '0',
+                marginBottom: '14px',
+                maxHeight: '230px',
                 overflowY: 'auto',
                 display: 'flex',
                 alignItems: 'center',
@@ -982,25 +982,29 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
                 <img
                   src={previewBlob.dataUrl}
                   alt={previewBlob.blobName}
-                  style={{ maxWidth: '100%', maxHeight: '360px', borderRadius: '8px', objectFit: 'contain' }}
+                  style={{ maxWidth: '100%', maxHeight: '230px', borderRadius: '8px', objectFit: 'contain' }}
                 />
               ) : previewBlob.textContent ? (
                 <pre
                   style={{
                     fontFamily: 'var(--font-mono)',
-                    fontSize: '12px',
+                    fontSize: '11px',
                     color: 'var(--shelby-cyan)',
                     width: '100%',
                     whiteSpace: 'pre-wrap',
                     wordBreak: 'break-word',
+                    background: 'var(--input-bg)',
+                    padding: '10px',
+                    borderRadius: '8px',
+                    maxHeight: '180px',
                   }}
                 >
                   {previewBlob.textContent}
                 </pre>
               ) : (
-                <div style={{ textAlign: 'center', padding: '20px' }}>
-                  <FileText size={40} color="var(--shelby-cyan)" style={{ margin: '0 auto 10px auto' }} />
-                  <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+                <div style={{ textAlign: 'center', padding: '14px' }}>
+                  <FileText size={32} color="var(--shelby-cyan)" style={{ margin: '0 auto 6px auto' }} />
+                  <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
                     Binary Blob Data — Direct stream access available via Shelby Hot Gateway.
                   </p>
                 </div>
@@ -1008,43 +1012,43 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
             </div>
 
             {/* Cryptographic & Network Details */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SHA-256 INTEGRITY CHECKSUM</div>
-                <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-cyan)', wordBreak: 'break-all', marginTop: '2px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
+              <div style={{ background: 'var(--input-bg)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>SHA-256 INTEGRITY CHECKSUM</div>
+                <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-cyan)', wordBreak: 'break-all', marginTop: '2px' }}>
                   {previewBlob.sha256Hash}
                 </div>
               </div>
 
-              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
+              <div style={{ background: 'var(--input-bg)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>LIVE WEB STREAM GATEWAY URL</div>
-                  <span className="badge badge-green" style={{ fontSize: '9px', padding: '1px 6px' }}>Publicly Accessible</span>
+                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>LIVE WEB STREAM GATEWAY URL</div>
+                  <span className="badge badge-green" style={{ fontSize: '8px', padding: '1px 5px' }}>Publicly Accessible</span>
                 </div>
-                <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-green)', wordBreak: 'break-all', marginTop: '2px' }}>
+                <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-green)', wordBreak: 'break-all', marginTop: '2px' }}>
                   {getShelbyHotUrl(previewBlob.accountAddress, previewBlob.blobName)}
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                <div style={{ fontSize: '9px', color: 'var(--text-muted)', marginTop: '2px' }}>
                   ⚡ Direct sub-second hot stream delivered via Shelby Cortex Hot Gateway
                 </div>
               </div>
 
-              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
+              <div style={{ background: 'var(--input-bg)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--card-border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>OFFICIAL TESTNET MOVE RPC URI</div>
-                  <span className="badge badge-purple" style={{ fontSize: '9px', padding: '1px 6px' }}>Protocol Subnet</span>
+                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>ON-CHAIN MOVE RESOURCE IDENTIFIER</div>
+                  <span className="badge badge-purple" style={{ fontSize: '8px', padding: '1px 5px' }}>Move Protocol</span>
                 </div>
-                <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: '#4facfe', wordBreak: 'break-all', marginTop: '2px' }}>
-                  {getCanonicalShelbyUri(previewBlob.accountAddress, previewBlob.blobName)}
+                <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: '#4facfe', wordBreak: 'break-all', marginTop: '2px' }}>
+                  {`shelby::blob_vault::${previewBlob.accountAddress}::${previewBlob.blobName}`}
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                  🔒 Gated Early Access: Used by Move smart contracts & @shelby-protocol/sdk across Doublezero fiber nodes
+                <div style={{ fontSize: '9px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                  🔒 Target for smart contracts & SDK. (Raw testnet RPC IPs use private testnet CA and cannot be opened directly in Chrome).
                 </div>
               </div>
             </div>
 
             {/* Action Bar */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               <button
                 onClick={() => {
                   if (previewBlob.dataUrl) {
@@ -1054,9 +1058,9 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
                   }
                 }}
                 className="btn-primary"
-                style={{ flex: 1, minWidth: '170px' }}
+                style={{ flex: 1, minWidth: '140px', fontSize: '12px', padding: '8px 12px' }}
               >
-                <ExternalLink size={16} /> Open in New Tab
+                <ExternalLink size={14} /> Open in New Tab
               </button>
 
               <button
@@ -1064,17 +1068,17 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
                   handleCopyText(getShelbyHotUrl(previewBlob.accountAddress, previewBlob.blobName), 'proxy_link');
                 }}
                 className="btn-secondary"
-                style={{ flex: 1, minWidth: '160px' }}
+                style={{ flex: 1, minWidth: '130px', fontSize: '12px', padding: '8px 12px' }}
               >
-                {copiedId === 'proxy_link' ? <Check size={16} /> : <Copy size={16} />} Copy Web Stream Link
+                {copiedId === 'proxy_link' ? <Check size={14} /> : <Copy size={14} />} Copy Web Link
               </button>
 
               <button
-                onClick={() => handleCopyText(getCanonicalShelbyUri(previewBlob.accountAddress, previewBlob.blobName), 'modal_link')}
+                onClick={() => handleCopyText(`shelby::blob_vault::${previewBlob.accountAddress}::${previewBlob.blobName}`, 'modal_link')}
                 className="btn-secondary"
-                style={{ flex: 1, minWidth: '160px' }}
+                style={{ flex: 1, minWidth: '120px', fontSize: '12px', padding: '8px 12px' }}
               >
-                {copiedId === 'modal_link' ? <Check size={16} /> : <Copy size={16} />} Copy Move URI
+                {copiedId === 'modal_link' ? <Check size={14} /> : <Copy size={14} />} Copy Move Key
               </button>
             </div>
           </div>
