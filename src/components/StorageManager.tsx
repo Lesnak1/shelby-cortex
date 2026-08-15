@@ -967,37 +967,52 @@ export default function StorageManager({ account, onOpenWalletModal }: StorageMa
             {/* Cryptographic & Network Details */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
               <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SHA-256 CHECKSUM</div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SHA-256 INTEGRITY CHECKSUM</div>
                 <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-cyan)', wordBreak: 'break-all', marginTop: '2px' }}>
                   {previewBlob.sha256Hash}
                 </div>
               </div>
 
               <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SHELBY HOT STORAGE GATEWAY URL</div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>CANONICAL SHELBY TESTNET HOT GATEWAY URI</div>
                 <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-blue)', wordBreak: 'break-all', marginTop: '2px' }}>
                   {previewBlob.hotUrl}
+                </div>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  🔒 Official Shelby Testnet Gateway (Requires Early Access RPC Whitelist / Bearer Token)
+                </div>
+              </div>
+
+              <div style={{ background: 'var(--input-bg)', padding: '10px 14px', borderRadius: '8px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SHELBY CORTEX PROXY STREAM URL</div>
+                <div style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--shelby-green)', wordBreak: 'break-all', marginTop: '2px' }}>
+                  {typeof window !== 'undefined' ? `${window.location.origin}/api/stream/${previewBlob.id}` : `/api/stream/${previewBlob.id}`}
+                </div>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  ⚡ Publicly accessible sub-second hot stream proxy
                 </div>
               </div>
             </div>
 
             {/* Action Bar */}
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <a
-                href={previewBlob.hotUrl}
-                target="_blank"
-                rel="noreferrer"
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              <button
+                onClick={() => {
+                  const proxyUrl = typeof window !== 'undefined' ? `${window.location.origin}/api/stream/${previewBlob.id}` : `/api/stream/${previewBlob.id}`;
+                  handleCopyText(proxyUrl, 'proxy_link');
+                }}
                 className="btn-primary"
-                style={{ flex: 1, textDecoration: 'none' }}
+                style={{ flex: 1, minWidth: '180px' }}
               >
-                <ExternalLink size={16} /> Open Gateway Stream
-              </a>
+                {copiedId === 'proxy_link' ? <Check size={16} /> : <Copy size={16} />} Copy Hot Stream Proxy
+              </button>
+
               <button
                 onClick={() => handleCopyText(previewBlob.hotUrl, 'modal_link')}
                 className="btn-secondary"
-                style={{ flex: 1 }}
+                style={{ flex: 1, minWidth: '180px' }}
               >
-                {copiedId === 'modal_link' ? <Check size={16} /> : <Copy size={16} />} Copy Stream URL
+                {copiedId === 'modal_link' ? <Check size={16} /> : <Copy size={16} />} Copy Canonical URI
               </button>
             </div>
           </div>
