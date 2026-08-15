@@ -398,6 +398,25 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 768px) {
   .app-container {
-    padding: 0 12px 30px 12px;
+    padding: 0 12px 24px 12px;
+  }
+  .desktop-nav {
+    display: none !important;
+  }
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+  .storage-grid-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .glass-panel {
+    padding: 16px !important;
+    border-radius: 12px !important;
+  }
+  .hide-on-mobile {
+    display: none !important;
+  }
+  input, button, select, textarea {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
   }
 }

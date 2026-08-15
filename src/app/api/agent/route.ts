@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 import { estimateStorageCost, calculateErasureCoding, getShelbyHotUrl } from '@/lib/shelby';
 
 export const dynamic = 'force-dynamic';
@@ -150,8 +151,9 @@ export async function POST(req: NextRequest) {
 
     // Live tool 4: Memory Inscription
     const memoryId = 'mem_' + Date.now().toString(36);
+    const proofDigest = crypto.createHash('sha256').update(prompt + memoryId).digest('hex');
     toolCalls.push({
-      id: 'tc_' + Math.random().toString(36).substring(2, 9),
+      id: 'tc_' + Date.now().toString(36) + '_mem',
       toolName: 'index_memory_blob',
       arguments: {
         memoryId,
@@ -161,7 +163,7 @@ export async function POST(req: NextRequest) {
       result: {
         blobName: `ai_memory_${memoryId}.json`,
         status: 'indexed_to_shelby_hot_cache',
-        cryptographicProof: 'sha256_' + Math.random().toString(36).substring(2, 10),
+        cryptographicProof: '0x' + proofDigest.substring(0, 32),
       },
       status: 'completed',
       executionTimeMs: 25,
