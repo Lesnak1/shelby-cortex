@@ -15,6 +15,9 @@ import {
   Shield,
   Layers,
   Sparkles,
+  Bot,
+  Globe,
+  Radio,
 } from 'lucide-react';
 
 interface DeveloperStudioProps {
@@ -22,11 +25,12 @@ interface DeveloperStudioProps {
 }
 
 export default function DeveloperStudio({ account }: DeveloperStudioProps) {
-  const [activeLang, setActiveLang] = useState<'ts-browser' | 'ts-node' | 'react' | 'python' | 'rust' | 'curl'>('ts-browser');
+  const [activeLang, setActiveLang] = useState<
+    'mcp' | 'ts-browser' | 'ts-node' | 'react' | 'cross-chain' | 'python' | 'rust' | 'curl'
+  >('mcp');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   // S3 Config state
-  const [s3BucketName, setS3BucketName] = useState('shelby-hot-bucket');
   const userAddress = account?.address || '0x1_your_aptos_address';
 
   const handleCopy = (text: string, key: string) => {
@@ -37,6 +41,61 @@ export default function DeveloperStudio({ account }: DeveloperStudioProps) {
 
   const getCodeSnippet = () => {
     switch (activeLang) {
+      case 'mcp':
+        return `// 🤖 Shelby Model Context Protocol (MCP) Server Configuration
+// Add this to your Claude Desktop config (claude_desktop_config.json),
+// Cursor (.cursor/mcp.json), or Antigravity / Gemini agents:
+
+{
+  "mcpServers": {
+    "shelby-hot-storage": {
+      "command": "npx",
+      "args": ["-y", "@shelby-protocol/mcp-server@latest"],
+      "env": {
+        "SHELBY_NETWORK": "testnet",
+        "SHELBY_GATEWAY_URL": "https://api.testnet.shelby.xyz/shelby/v1",
+        "SHELBY_ACCOUNT_ADDRESS": "${userAddress}",
+        "APTOS_FULLNODE_URL": "https://fullnode.testnet.aptoslabs.com/v1"
+      }
+    }
+  }
+}
+
+// Live JSON-RPC 2.0 Endpoint hosted on Shelby Cortex:
+// POST https://shelby-cortex.vercel.app/api/mcp
+// Tools: shelby_get_blob, shelby_calculate_shards, shelby_inscribe_agent_memory, shelby_verify_read_proof`;
+
+      case 'cross-chain':
+        return `// 🌐 Cross-Chain Derived Storage (Ethereum / Solana / Aptos)
+// Shelby supports "Any chain. Any stack. Even no chain."
+
+import { ShelbyCrossChain } from "@shelby-protocol/sdk/cross-chain";
+import { ethers } from "ethers";
+
+// 1. Derive Shelby Storage Vault from an Ethereum / EVM Wallet
+export async function deriveStorageFromEVM(ethereumSigner: ethers.Signer) {
+  const evmAddress = await ethereumSigner.getAddress();
+  
+  // Derives deterministic Aptos Move storage address via EIP-712 signature
+  const storageAccount = await ShelbyCrossChain.deriveAccountFromEVM({
+    signer: ethereumSigner,
+    message: "Shelby Protocol Hot Storage Vault Authorization",
+  });
+
+  console.log("Derived Aptos Storage Address:", storageAccount.shelbyAddress);
+  return storageAccount;
+}
+
+// 2. Derive Shelby Storage Vault from Solana (Ed25519)
+export async function deriveStorageFromSolana(solanaKeypair: any) {
+  const storageAccount = await ShelbyCrossChain.deriveAccountFromSolana({
+    publicKey: solanaKeypair.publicKey.toBase58(),
+    signatureCallback: (msg) => solanaKeypair.sign(msg),
+  });
+  
+  return storageAccount;
+}`;
+
       case 'ts-browser':
         return `// 1. Install packages:
 // npm install @shelby-protocol/sdk @aptos-labs/ts-sdk
@@ -44,13 +103,14 @@ export default function DeveloperStudio({ account }: DeveloperStudioProps) {
 import { ShelbyClient } from '@shelby-protocol/sdk/browser';
 import { Network } from '@aptos-labs/ts-sdk';
 
-// 2. Initialize the Shelby Client
+// 2. Initialize the Shelby Client with Jump HPC & Doublezero Fiber routing
 const shelby = new ShelbyClient({
   network: Network.TESTNET,
-  apiKey: process.env.NEXT_PUBLIC_SHELBY_API_KEY || "shelby_testnet_live",
+  gateway: "https://api.testnet.shelby.xyz/shelby/v1",
+  fiberBackbone: "doublezero-global",
 });
 
-// 3. Upload dataset with sub-second retrieval guarantees
+// 3. Upload GenAI Dataset or AI model weights with sub-second retrieval guarantees
 export async function uploadDataset(file: File, aptosAccount: any) {
   const expirationMicros = (Date.now() + 30 * 24 * 60 * 60 * 1000) * 1000; // 30 days
   
@@ -59,6 +119,7 @@ export async function uploadDataset(file: File, aptosAccount: any) {
     blobData: await file.arrayBuffer(),
     blobName: file.name,
     expirationMicros,
+    erasureScheme: "reed-solomon-auto", // K=10, M=4 for >50MB
   });
 
   console.log("⚡ Blob successfully stored:", blob);
@@ -76,7 +137,7 @@ import fs from "fs/promises";
 async function main() {
   const shelby = new ShelbyNodeClient({
     network: Network.TESTNET,
-    apiKey: process.env.SHELBY_API_KEY,
+    fiberNetwork: "doublezero",
   });
 
   // Load Aptos private key
@@ -86,7 +147,7 @@ async function main() {
   const buffer = await fs.readFile("./ai_model_weights.bin");
   const expirationMicros = (Date.now() + 90 * 24 * 60 * 60 * 1000) * 1000;
 
-  console.log("🚀 Inscribing to Shelby Hot Tier network...");
+  console.log("🚀 Inscribing to Shelby Hot Tier network via Jump HPC stack...");
   const uploadResult = await shelby.upload({
     account,
     blobData: buffer,
@@ -115,7 +176,6 @@ export function ShelbyHotUploader() {
     setUploading(true);
     try {
       const shelby = new ShelbyClient({ network: Network.TESTNET });
-      // Use connected browser wallet or Aptos adapter
       const result = await shelby.upload({
         account: (window as any).aptos,
         blobData: await file.arrayBuffer(),
@@ -151,11 +211,14 @@ def get_hot_blob():
     url = f"{SHELBY_RPC}/blobs/{ACCOUNT_ADDR}/{BLOB_NAME}"
     start_time = time.time()
     
+    # Sub-second read from Doublezero fiber network
     response = requests.get(url, headers={"Accept": "application/octet-stream"})
     elapsed_ms = (time.time() - start_time) * 1000
     
     if response.status_code == 200:
-        print(f"⚡ Sub-second read successful! Latency: {elapsed_ms:.1f}ms")
+        # Cryptographic Proof of Retrievability (PoR) verification header
+        por_signature = response.headers.get("X-Shelby-Proof-Of-Read")
+        print(f"⚡ Sub-second read successful! Latency: {elapsed_ms:.1f}ms | PoR: {por_signature}")
         with open(BLOB_NAME, "wb") as f:
             f.write(response.content)
     else:
@@ -181,7 +244,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let resp = client.get(url).send().await?;
     
     let duration = start.elapsed();
-    println!("⚡ Shelby Hot Stream Verified! Latency: {:?} (Status: {})", duration, resp.status());
+    let por_header = resp.headers().get("x-shelby-proof-of-read");
+    
+    println!("⚡ Shelby Hot Stream Verified! Latency: {:?} (PoR Header: {:?})", duration, por_header);
 
     let bytes = resp.bytes().await?;
     println!("📦 Streamed Bytes Received: {}", bytes.len());
@@ -190,16 +255,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }`;
 
       case 'curl':
-        return `# 1. Retrieve Blob Metadata & Headers:
+        return `# 1. Retrieve Blob Metadata & Proof-of-Read Header:
 curl -X GET "https://api.testnet.shelby.xyz/shelby/v1/blobs/${userAddress}/my_file.json" \\
-     -H "Accept: application/json"
+     -H "Accept: application/json" -i
 
 # 2. Direct Binary Stream Download:
 curl -X GET "https://api.testnet.shelby.xyz/shelby/v1/blobs/${userAddress}/my_file.json" \\
      --output "downloaded_file.json"
 
-# 3. Aptos Testnet Fullnode Health Check:
-curl -X GET "https://fullnode.testnet.aptoslabs.com/v1"`;
+# 3. Model Context Protocol (MCP) JSON-RPC Query:
+curl -X POST "https://shelby-cortex.vercel.app/api/mcp" \\
+     -H "Content-Type: application/json" \\
+     -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'`;
     }
   };
 
@@ -210,7 +277,7 @@ provider = Shelby
 endpoint = https://api.testnet.shelby.xyz/s3/v1
 access_key_id = ${userAddress}
 secret_access_key = YOUR_SHELBY_SECRET_KEY
-region = shelby-global-fiber
+region = doublezero-global-fiber
 acl = public-read
 storage_class = HOT_FIBER_TIER`;
   };
@@ -227,14 +294,14 @@ storage_class = HOT_FIBER_TIER`;
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
           <span className="badge badge-cyan">Developer Hub</span>
-          <span className="badge badge-purple">Multi-Language SDKs</span>
-          <span className="badge badge-green">S3-Compatible Gateway</span>
+          <span className="badge badge-purple">Shelby MCP Server & AI Skills</span>
+          <span className="badge badge-green">Cross-Chain (Aptos / EVM / Solana)</span>
         </div>
         <h1 style={{ fontSize: '26px', fontWeight: 800, marginBottom: '8px' }}>
-          Shelby Protocol <span className="gradient-text-cyan">Developer Studio</span>
+          Shelby Protocol <span className="gradient-text-cyan">Developer Studio & MCP Matrix</span>
         </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', maxWidth: '720px', lineHeight: '1.6' }}>
-          Integrate the Shelby Hot Storage network into your applications in minutes. Production-ready SDK snippets for TypeScript, React, Python, Rust, and standard S3 CLI utilities.
+        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', maxWidth: '780px', lineHeight: '1.6' }}>
+          Integrate the Shelby Hot Storage network into AI agents, Claude/Cursor, and cross-chain dApps. Production-ready SDK snippets for TypeScript, React, Python, Rust, Cross-Chain, and Model Context Protocol (MCP).
         </p>
       </div>
 
@@ -243,18 +310,20 @@ storage_class = HOT_FIBER_TIER`;
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '18px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Code2 size={18} color="var(--shelby-cyan)" />
-            <h2 style={{ fontSize: '16px', fontWeight: 700 }}>SDK Integration Code Generator</h2>
+            <h2 style={{ fontSize: '16px', fontWeight: 700 }}>SDK & MCP Tooling Integration</h2>
           </div>
 
           {/* Language selector pills */}
           <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
             {[
+              { id: 'mcp', label: '🤖 Shelby MCP Server' },
+              { id: 'cross-chain', label: '🌐 Cross-Chain (EVM/Solana)' },
               { id: 'ts-browser', label: 'TS Browser' },
               { id: 'ts-node', label: 'TS Node.js' },
               { id: 'react', label: 'React' },
               { id: 'python', label: 'Python' },
               { id: 'rust', label: 'Rust' },
-              { id: 'curl', label: 'cURL' },
+              { id: 'curl', label: 'cURL & MCP' },
             ].map(lang => (
               <button
                 key={lang.id}
@@ -407,7 +476,7 @@ storage_class = HOT_FIBER_TIER`;
           </div>
 
           <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '16px' }}>
-            Shelby is co-developed by Aptos Labs & Jump Crypto for high-throughput, low-latency decentralized data pipelines.
+            Shelby is co-developed by Aptos Labs & Jump Crypto, routed over Doublezero global fiber backbone.
           </div>
         </div>
       </div>
