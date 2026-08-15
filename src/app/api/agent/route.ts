@@ -10,7 +10,7 @@ interface AgentRequest {
   userApiKey?: string;
 }
 
-const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || 'sk-798906ba039846b39aa7d9823f8bed5e';
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || '';
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
 
 export async function POST(req: NextRequest) {
